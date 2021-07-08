@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.4.0"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:gl="clr-namespace:Bonsai.Shaders;assembly=Bonsai.Shaders"
+                 xmlns:dsp="clr-namespace:Bonsai.Dsp;assembly=Bonsai.Dsp"
+                 xmlns:q1="clr-namespace:OpenCV.Net;assembly=OpenCV.Net"
+                 xmlns:bv="clr-namespace:BonVision;assembly=BonVision"
+                 xmlns:cv="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision"
+                 xmlns="https://bonsai-rx.org/2018/workflow">
+  <Description>Generates and draws a non-overlapping discrete sparse grid of randomly activated quads.</Description>
+  <Workflow>
+    <Nodes>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>Random</Name>
+      </Expression>
+      <Expression xsi:type="ExternalizedProperty">
+        <MemberName>Period</MemberName>
+        <Name>Duration</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="gl:Timer">
+          <gl:DueTime>PT0S</gl:DueTime>
+          <gl:Period>PT0.2S</gl:Period>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="ExternalizedProperty">
+        <MemberName>ActiveQuads</MemberName>
+        <Name>ActiveQuads</Name>
+      </Expression>
+      <Expression xsi:type="ExternalizedProperty">
+        <MemberName>Value</MemberName>
+        <Name>GridSize</Name>
+        <Description>The size of the sparse noise grid.</Description>
+        <Category />
+      </Expression>
+      <Expression xsi:type="PropertySource" TypeArguments="dsp:ConvertFromArray,q1:Size">
+        <MemberName>Size</MemberName>
+        <Value>
+          <Width>10</Width>
+          <Height>10</Height>
+        </Value>
+      </Expression>
+      <Expression xsi:type="PropertyMapping">
+        <PropertyMappings>
+          <Property Name="Size" />
+        </PropertyMappings>
+      </Expression>
+      <Expression xsi:type="PropertySource" TypeArguments="dsp:ConvertFromArray,q1:Size">
+        <MemberName>Size</MemberName>
+        <Value>
+          <Width>10</Width>
+          <Height>10</Height>
+        </Value>
+      </Expression>
+      <Expression xsi:type="PropertyMapping">
+        <PropertyMappings>
+          <Property Name="Rows" Selector="Height" />
+          <Property Name="Columns" Selector="Width" />
+        </PropertyMappings>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="bv:CreateSparseNoiseGrid">
+          <bv:Rows>10</bv:Rows>
+          <bv:Columns>10</bv:Columns>
+          <bv:ActiveQuads>5</bv:ActiveQuads>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="dsp:ConvertFromArray">
+          <dsp:Size>
+            <dsp:Width>10</dsp:Width>
+            <dsp:Height>10</dsp:Height>
+          </dsp:Size>
+          <dsp:Depth xsi:nil="true" />
+          <dsp:Channels xsi:nil="true" />
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="cv:ConvertToImage" />
+      </Expression>
+      <Expression xsi:type="WorkflowOutput" />
+    </Nodes>
+    <Edges>
+      <Edge From="0" To="9" Label="Source2" />
+      <Edge From="1" To="2" Label="Source1" />
+      <Edge From="2" To="9" Label="Source1" />
+      <Edge From="3" To="9" Label="Source3" />
+      <Edge From="4" To="5" Label="Source1" />
+      <Edge From="4" To="7" Label="Source1" />
+      <Edge From="5" To="6" Label="Source1" />
+      <Edge From="6" To="10" Label="Source2" />
+      <Edge From="7" To="8" Label="Source1" />
+      <Edge From="8" To="9" Label="Source4" />
+      <Edge From="9" To="10" Label="Source1" />
+      <Edge From="10" To="11" Label="Source1" />
+      <Edge From="11" To="12" Label="Source1" />
+    </Edges>
+  </Workflow>
+</WorkflowBuilder>

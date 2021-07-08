@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <iconUrl>https://github.com/amansaleem/BonVision/raw/nuget-package/Resources/BonVision-Logo.png</iconUrl>
+    <licenseUrl>https://raw.githubusercontent.com/amansaleem/BonVision/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/amansaleem/BonVision</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <copyright>$author$ © 2019</copyright>
+    <tags>Bonsai BonVision Visual Stimulus</tags>
+  </metadata>
+</package>

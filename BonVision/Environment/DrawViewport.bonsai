@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.4.0"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:gl="clr-namespace:Bonsai.Shaders;assembly=Bonsai.Shaders"
+                 xmlns="https://bonsai-rx.org/2018/workflow">
+  <Description>Renders all currently stored draw commands to the specified viewport.</Description>
+  <Workflow>
+    <Nodes>
+      <Expression xsi:type="WorkflowInput">
+        <Name>Source1</Name>
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="X" Description="The x-coordinate of the lower-left corner of the viewport rectangle, as a fraction of total number of pixels in the window width." />
+        <Property Name="Y" Description="The y-coordinate of the lower-left corner of the viewport rectangle, as a fraction of total number of pixels in the window height." />
+        <Property Name="Width" Description="The width of the viewport rectangle as a fraction of total number of pixels in the window width." />
+        <Property Name="Height" Description="The height of the viewport rectangle as a fraction of total number of pixels in the window height." />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="gl:UpdateViewportState">
+          <gl:X>0</gl:X>
+          <gl:Y>0</gl:Y>
+          <gl:Width>1</gl:Width>
+          <gl:Height>1</gl:Height>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="gl:DrawFramebuffer">
+          <gl:RenderState />
+          <gl:FramebufferAttachments />
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="WorkflowOutput" />
+    </Nodes>
+    <Edges>
+      <Edge From="0" To="2" Label="Source1" />
+      <Edge From="1" To="2" Label="Source2" />
+      <Edge From="2" To="3" Label="Source1" />
+      <Edge From="3" To="4" Label="Source1" />
+    </Edges>
+  </Workflow>
+</WorkflowBuilder>
